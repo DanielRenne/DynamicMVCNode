@@ -1,0 +1,10 @@
+{
+  "name": "DynamicMVCNode",
+  "version": ".0.2",
+  "description": "DynamicMVCNode",
+  "main": "Server.js",
+  "author": {
+    "name": "Daniel Renne",
+    "email": "Daniel.Renne@gmail.com"
+  }
+}

@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="javascript/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var ipAddress = window.location.hostname;
+
+        $(document).ready(
+            function () {
+                webSocketConnect();
+            }
+        );
+
+        function webSocketConnect() {
+            try {
+
+                var host = "ws://" + ipAddress + ":81";
+                if ("WebSocket" in window)
+                    socket = new WebSocket(host);
+                if ("MozWebSocket" in window)
+                    socket = new MozWebSocket(host);
+
+                socket.onopen = function () {
+                    var jsonObj = new Object();
+                    jsonObj.controller = "Person";
+                    jsonObj.method = "callWebSocket";
+                    socket.send(JSON.stringify(jsonObj));
+                }
+
+                socket.onerror = function (msg) {
+                    alert('Web Socket encountered an error.\r\nCode:' + msg);
+                }
+
+                socket.onmessage = function (msg) {
+                    var jsonObj = JSON.parse(msg.data);
+                    //Do Something with the Server Response
+                }
+
+                socket.onclose = function () {
+                    alert('Web Socket closed.');
+                }
+
+            } catch (exception) {
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+    Here is a Person
+</body>
+</html>
