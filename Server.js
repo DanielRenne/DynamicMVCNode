@@ -86,22 +86,29 @@ http.createServer(function (req, res) {
                 }
                 else{
                     var requestURL = req.url.replace(/%5C/g, "/").replace(/%20/g, " ").replace("/", '');;
-                    fs.exists(requestURL, function(exists){
 
-                        var dir = "";
-                        var controllerFile = "Root";
-                        var method = "index";
-                        var param = "";
+                    var dir = "";
+                    var controllerFile = "Root";
+                    var method = "index";
+                    var param = "";
 
 
-                        if(requestURL != ""){
-                            var url = requestURL.split("/");
-                            controllerFile = url[0];
-                            dir = controllerFile;
-                            if(url.length > 1)
-                                method = url[1];
-                            if(url.length > 2)
-                                param = url[2];
+                    if(requestURL != ""){
+                        var url = requestURL.split("/");
+                        controllerFile = url[0];
+                        dir = controllerFile;
+                        if(url.length > 1)
+                            method = url[1];
+                        if(url.length > 2)
+                            param = url[2];
+                    }
+
+                    fs.exists(dir, function (exists) {
+
+                        if (!exists && requestURL != "") {  //If the request is not restfull then dump it to Root and other nonRestRequest
+                            dir = "";
+                            controllerFile = "Root";
+                            method = "nonRestRequest";
                         }
 
                         try{
